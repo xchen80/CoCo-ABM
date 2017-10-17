@@ -8,6 +8,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 
 from pylab import *
+import numpy as np
 import networkx as nx
 
 # set of conversion/combination rules
