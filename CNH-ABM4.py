@@ -8,6 +8,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 
 from pylab import *
+import numpy as np
 import networkx as nx
 
 # set of conversion/combination rules
@@ -38,7 +39,7 @@ def init():
     g = nx.gnp_random_graph(n, p, directed = True)
     g.pos = nx.spring_layout(g, k = 0.25)
     for i in g.nodes_iter():
-        s = choice(range(len(capacities)), 
+        s = np.random.choice(range(len(capacities)),
                    size = nc,
                    replace = False)
         g.node[i]['capacity'] = [capacities[j] for j in s]
@@ -107,7 +108,7 @@ def step():
 
     # randomize the order of agents for updating
     agent_order = g.nodes()
-    shuffle(agent_order)
+    np.random.shuffle(agent_order)
     for i in agent_order:
             
         # consume 'a' just for living
@@ -116,7 +117,7 @@ def step():
         g.resource['a'] -= 1
 
         # choose one rule from its capacity
-        j = choice(range(len(g.node[i]['capacity'])))
+        j = np.random.choice(range(len(g.node[i]['capacity'])))
         left, right = g.node[i]['capacity'][j]
     
         # if any of the involved resources doesn't have a counter
@@ -138,7 +139,7 @@ def step():
             else:
                 # if anything is missing, try to get it from in-neighbors
                 in_neighbors = g.predecessors(i)
-                shuffle(in_neighbors)
+                np.random.shuffle(in_neighbors)
                 for j in in_neighbors:
                     if x in g.node[j]['resource']:
                         if g.node[j]['resource'][x] > 0:
